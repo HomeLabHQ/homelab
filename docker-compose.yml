@@ -1,0 +1,52 @@
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./conf/prowlarr:/config
+    restart: unless-stopped
+    ports:
+      - "9696:9696"
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./conf/sonarr:/config
+      # - /path/to/tvseries:/tv #optional
+      # - /path/to/downloadclient-downloads:/downloads #optional
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./conf/radarr:/config
+      # - /path/to/movies:/movies #optional
+      # - /path/to/downloadclient-downloads:/downloads #optional
+    restart: unless-stopped
+  homer:
+    image: b4bz/homer
+    container_name: homer
+    volumes:
+      - ./conf/homer:/www/assets
+    user: 0:0
+  nginx:
+    image: nginx:latest
+    restart: always
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./conf/nginx:/etc/nginx/conf.d
+
+version: "3.7"
