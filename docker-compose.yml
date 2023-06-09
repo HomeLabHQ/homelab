@@ -1,4 +1,20 @@
 services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8080
+    volumes:
+      - ./conf/qbit/:/config
+      - /data/downloads:/downloads
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -20,8 +36,10 @@ services:
       - TZ=Etc/UTC
     volumes:
       - ./conf/sonarr:/config
-      # - /path/to/tvseries:/tv #optional
-      # - /path/to/downloadclient-downloads:/downloads #optional
+      - /data/tv:/tv #optional
+      - /data/downlads:/downloads #optional
+    ports:
+      - "8989:8989"
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -31,8 +49,10 @@ services:
       - TZ=Etc/UTC
     volumes:
       - ./conf/radarr:/config
-      # - /path/to/movies:/movies #optional
-      # - /path/to/downloadclient-downloads:/downloads #optional
+      - /data/movies:/movies #optional
+      - /data/donwloads:/downloads #optional
+    ports:
+      - "7878:7878"
     restart: unless-stopped
   homer:
     image: b4bz/homer
