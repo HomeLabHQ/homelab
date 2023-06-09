@@ -37,7 +37,7 @@ services:
     volumes:
       - ./conf/sonarr:/config
       - /data/tv:/tv #optional
-      - /data/downlads:/downloads #optional
+      - /data/downloads:/downloads #optional
     ports:
       - "8989:8989"
   radarr:
@@ -50,7 +50,7 @@ services:
     volumes:
       - ./conf/radarr:/config
       - /data/movies:/movies #optional
-      - /data/donwloads:/downloads #optional
+      - /data/downloads:/downloads #optional
     ports:
       - "7878:7878"
     restart: unless-stopped
