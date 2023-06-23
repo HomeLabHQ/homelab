@@ -76,12 +76,27 @@ services:
     volumes:
       - ./conf/homer:/www/assets
     user: 0:0
+  kuma:
+    image: louislam/uptime-kuma
+    container_name: kuma
+    volumes:
+      - ./conf/uptime-kuma:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
   nginx:
     image: nginx:latest
     restart: always
     container_name: nginx
     ports:
       - 80:80
+    depends_on:
+      - prowlarr
+      - sonarr
+      - radarr
+      - homer
+      - jellyfin
+      - kuma
+      - qbittorrent
     volumes:
       - ./conf/nginx:/etc/nginx/conf.d
 
