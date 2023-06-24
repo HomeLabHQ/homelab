@@ -76,13 +76,23 @@ services:
     volumes:
       - ./conf/homer:/www/assets
     user: 0:0
-  kuma:
-    image: louislam/uptime-kuma
-    container_name: kuma
-    volumes:
-      - ./conf/uptime-kuma:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock
+  netdata:
+    image: netdata/netdata
+    container_name: netdata
     restart: always
+    hostname: homelab
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NETDATA_CLAIM_TOKEN
+      - NETDATA_CLAIM_URL=https://app.netdata.cloud
+      - NETDATA_CLAIM_ROOMS
   nginx:
     image: nginx:latest
     restart: always
@@ -95,7 +105,6 @@ services:
       - radarr
       - homer
       - jellyfin
-      - kuma
       - qbittorrent
     volumes:
       - ./conf/nginx:/etc/nginx/conf.d
