@@ -66,10 +66,3 @@ services:
         subtitle: "Media server"
         tag: "client"
         url: "jellyfin"
-  - name: "SmartHome"
-    icon: "fas fa-cloud"
-    items:
-      - name: "kuma"
-        subtitle: "Uptime kuma"
-        tag: "kuma"
-        url: "kuma"
