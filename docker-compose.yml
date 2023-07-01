@@ -1,4 +1,30 @@
 services:
+  nginx:
+    image: nginx:latest
+    restart: always
+    container_name: nginx
+    ports:
+      - 80:80
+    depends_on:
+      - prowlarr
+      - sonarr
+      - radarr
+      - homer
+      - jellyfin
+      - qbittorrent
+    volumes:
+      - ./conf/nginx:/etc/nginx/conf.d
+  jellyseerr:
+       image: fallenbagel/jellyseerr:latest
+       container_name: jellyseerr
+       environment:
+            - LOG_LEVEL=debug
+            - TZ=Europe/Kiev
+       ports:
+            - 5055:5055
+       volumes:
+            - ./conf/jellyseerr:/app/config
+       restart: unless-stopped
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -115,20 +141,5 @@ services:
       - DIUN_NOTIF_TELEGRAM_TEMPLATEBODY
     labels:
       - "diun.enable=true"
-  nginx:
-    image: nginx:latest
-    restart: always
-    container_name: nginx
-    ports:
-      - 80:80
-    depends_on:
-      - prowlarr
-      - sonarr
-      - radarr
-      - homer
-      - jellyfin
-      - qbittorrent
-    volumes:
-      - ./conf/nginx:/etc/nginx/conf.d
 
 version: "3.7"
