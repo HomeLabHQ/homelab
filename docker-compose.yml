@@ -15,23 +15,23 @@ services:
     volumes:
       - ./conf/nginx:/etc/nginx/conf.d
   jellyseerr:
-       image: fallenbagel/jellyseerr:latest
-       container_name: jellyseerr
-       environment:
-            - LOG_LEVEL=debug
-            - TZ=Europe/Kiev
-       ports:
-            - 5055:5055
-       volumes:
-            - ./conf/jellyseerr:/app/config
-       restart: unless-stopped
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Europe/Kiev
+    ports:
+      - 5055:5055
+    volumes:
+      - ./conf/jellyseerr:/app/config
+    restart: unless-stopped
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=Europe/Kiev
       - WEBUI_PORT=8080
     volumes:
       - ./conf/qbit/:/config
@@ -47,7 +47,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=Europe/Kiev
     volumes:
       - ./conf/prowlarr:/config
     restart: unless-stopped
@@ -59,7 +59,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=Europe/Kiev
     volumes:
       - ./conf/sonarr:/config
       - /data/tv:/tv #optional
@@ -72,7 +72,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=Europe/Kiev
     volumes:
       - ./conf/radarr:/config
       - /data/movies:/movies #optional
@@ -86,7 +86,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=Europe/Kiev
     volumes:
       - ./conf/jellyfin:/config
       - /data/tv:/data/tvshows
@@ -102,24 +102,6 @@ services:
     volumes:
       - ./conf/homer:/www/assets
     user: 0:0
-  netdata:
-    image: netdata/netdata
-    container_name: netdata
-    restart: always
-    hostname: homelab
-    cap_add:
-      - SYS_PTRACE
-    security_opt:
-      - apparmor:unconfined
-    volumes:
-      - ./conf/netdata:/etc/netdata
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - NETDATA_CLAIM_TOKEN
-      - NETDATA_CLAIM_URL=https://app.netdata.cloud
-      - NETDATA_CLAIM_ROOMS
   diun:
     image: crazymax/diun:latest
     container_name: diun
@@ -143,5 +125,4 @@ services:
       - DIUN_PROVIDERS_DOCKER_WATCHSTOPPED=true
     labels:
       - "diun.enable=true"
-
 version: "3.7"
