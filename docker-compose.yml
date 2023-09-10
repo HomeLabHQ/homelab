@@ -35,7 +35,7 @@ services:
       - WEBUI_PORT=8080
     volumes:
       - ./conf/qbit/:/config
-      - /data/downloads:/downloads
+      # - /data/downloads:/downloads
     ports:
       - 8080:8080
       - 6881:6881
@@ -94,6 +94,20 @@ services:
     ports:
       - 8787:8787
     restart: unless-stopped
+  calibre:
+    image: ghcr.io/linuxserver/calibre
+    container_name: calibre
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./conf/calibre/config:/config #change before the ':'
+      - ./conf/calibre/upload:/uploads #change before the ':'
+      - ./conf/calibre/plugins:/plugins #change before the ':'
+      - /data/books:/Calibre_Library #this is where your ebooks will 
+    ports:
+      - 8001:8080
+      - 8081:8081
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
