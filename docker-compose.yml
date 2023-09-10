@@ -35,7 +35,7 @@ services:
       - WEBUI_PORT=8080
     volumes:
       - ./conf/qbit/:/config
-      # - /data/downloads:/downloads
+      - /data/downloads:/downloads
     ports:
       - 8080:8080
       - 6881:6881
