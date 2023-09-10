@@ -89,7 +89,7 @@ services:
       - TZ=Europe/Kiev
     volumes:
       - ./conf/readarr:/config
-      - /data/books/CalibreLibrary:/books #optional
+      - /data/books:/books #optional
       - /data/downloads:/downloads #optional
     ports:
       - 8787:8787
@@ -104,7 +104,7 @@ services:
       - ./conf/calibre/config:/config
       - ./conf/calibre/upload:/uploads
       - ./conf/calibre/plugins:/plugins
-      - /data/books/CalibreLibrary:/Calibre_Library
+      - /data/books:/Calibre_Library
     ports:
       - 8001:8080
       - 8081:8081
