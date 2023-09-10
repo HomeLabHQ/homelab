@@ -104,7 +104,7 @@ services:
       - ./conf/calibre/config:/config #change before the ':'
       - ./conf/calibre/upload:/uploads #change before the ':'
       - ./conf/calibre/plugins:/plugins #change before the ':'
-      - /data/books:/Calibre_Library #this is where your ebooks will 
+      - /data/books/CalibreLibrary:/Calibre_Library #this is where your ebooks will 
     ports:
       - 8001:8080
       - 8081:8081
