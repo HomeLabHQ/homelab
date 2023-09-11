@@ -94,20 +94,6 @@ services:
     ports:
       - 8787:8787
     restart: unless-stopped
-  calibre:
-    image: ghcr.io/linuxserver/calibre
-    container_name: calibre
-    environment:
-      - PUID=1000
-      - PGID=1000
-    volumes:
-      - ./conf/calibre/config:/config
-      - ./conf/calibre/upload:/uploads
-      - ./conf/calibre/plugins:/plugins
-      - /data/books:/Calibre_Library
-    ports:
-      - 8001:8080
-      - 8081:8081
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
