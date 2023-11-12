@@ -9,7 +9,7 @@ services:
       - prowlarr
       - sonarr
       - radarr
-      - homer
+      - heimdall
       - jellyfin
       - qbittorrent
     volumes:
