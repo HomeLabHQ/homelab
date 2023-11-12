@@ -14,6 +14,16 @@ services:
       - qbittorrent
     volumes:
       - ./conf/nginx:/etc/nginx/conf.d
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./conf/heimdall:/config
+    restart: unless-stopped
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
@@ -96,12 +106,6 @@ services:
       - 8920:8920 #optional
       - 7359:7359/udp #optional
       - 1900:1900/udp #optional
-  homer:
-    image: b4bz/homer
-    container_name: homer
-    volumes:
-      - ./conf/homer:/www/assets
-    user: 0:0
   diun:
     image: crazymax/diun:latest
     container_name: diun
