@@ -45,7 +45,7 @@ services:
       - WEBUI_PORT=8080
     volumes:
       - ./conf/qbit/:/config
-      - /data/downloads:/downloads
+      - /mnt/media/downloads:/downloads
     ports:
       - 8080:8080
       - 6881:6881
@@ -72,8 +72,8 @@ services:
       - TZ=Europe/Kiev
     volumes:
       - ./conf/sonarr:/config
-      - /data/tv:/tv #optional
-      - /data/downloads:/downloads #optional
+      - /mnt/media/tv:/tv #optional
+      - /mnt/media/downloads:/downloads #optional
     ports:
       - "8989:8989"
   radarr:
@@ -85,8 +85,8 @@ services:
       - TZ=Europe/Kiev
     volumes:
       - ./conf/radarr:/config
-      - /data/movies:/movies #optional
-      - /data/downloads:/downloads #optional
+      - /mnt/media/movies:/movies #optional
+      - /mnt/media/downloads:/downloads #optional
     ports:
       - "7878:7878"
     restart: unless-stopped
@@ -99,8 +99,8 @@ services:
       - TZ=Europe/Kiev
     volumes:
       - ./conf/jellyfin:/config
-      - /data/tv:/data/tvshows
-      - /data/movies:/data/movies
+      - /mnt/media/tv:/data/tvshows
+      - /mnt/media/movies:/data/movies
     ports:
       - 8096:8096
       - 8920:8920 #optional
