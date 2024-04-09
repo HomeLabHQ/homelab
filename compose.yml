@@ -106,27 +106,9 @@ services:
       - 8920:8920 #optional
       - 7359:7359/udp #optional
       - 1900:1900/udp #optional
-  diun:
-    image: crazymax/diun:latest
-    container_name: diun
-    hostname: homelab
-    command: serve
+  watchtower:
+    image: containrrr/watchtower
     volumes:
-      - ./conf/diun/data:/data
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - TZ=Europe/Kiev
-      - LOG_LEVEL=info
-      - LOG_JSON=false
-      - DIUN_WATCH_WORKERS=20
-      - DIUN_WATCH_SCHEDULE=0 */6 * * *
-      - DIUN_WATCH_JITTER=30s
-      - DIUN_PROVIDERS_DOCKER=true
-      - DIUN_NOTIF_TELEGRAM_TOKEN
-      - DIUN_NOTIF_TELEGRAM_CHATIDS
-      - DIUN_NOTIF_TELEGRAM_TEMPLATEBODY
-      - DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true
-      - DIUN_PROVIDERS_DOCKER_WATCHSTOPPED=true
-    labels:
-      - "diun.enable=true"
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "0 0 4 * * *"
 version: "3.7"
