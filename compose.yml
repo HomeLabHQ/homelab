@@ -111,4 +111,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --schedule "0 0 4 * * *"
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    environment:
+      - TZ=Europe/Kiev
+    volumes:
+      - ./conf/homeassistant:/config
+    ports:
+      - "8123:8123"
+    restart: unless-stopped
 version: "3.7"
