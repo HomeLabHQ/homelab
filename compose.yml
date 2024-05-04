@@ -1,7 +1,7 @@
 services:
   nginx:
     image: nginx:latest
-    restart: always
+    restart: unless-stopped
     container_name: nginx
     ports:
       - 80:80
@@ -110,15 +110,5 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --schedule "0 0 4 * * *"
-  homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:stable
-    container_name: homeassistant
-    environment:
-      - TZ=Europe/Kiev
-    volumes:
-      - ./conf/homeassistant:/config
-    ports:
-      - "8123:8123"
-    restart: unless-stopped
+    command: --schedule "0 0 3 * * *" --cleanup
 version: "3.7"

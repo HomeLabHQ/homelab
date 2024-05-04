@@ -15,8 +15,16 @@ Config for media server
         Container(prowlarr, "Prowlarr", "Search indexer")
         Container(jellyfin, "Jellyfin", "Media server")
         Container(jellyseerr, "Jellyseerr", "Media discovery&request service")
+        Container(watchtower, "Watchtower", "Monitoring for new images")
     }
     Rel(user, heimdall, "Uses dashboard to navigate")
+    Rel(watchtower, heimdall, "Checks for new images")
+    Rel(watchtower, qbit, "Checks for new images")
+    Rel(watchtower, sonarr, "Checks for new images")
+    Rel(watchtower, radarr, "Checks for new images")
+    Rel(watchtower, jellyfin, "Checks for new images")
+    Rel(watchtower, jellyseerr, "Checks for new images")
+    Rel(watchtower, prowlarr, "Checks for new images")
     BiRel(prowlarr, sonarr, "Syncs search feeds")
     BiRel(prowlarr, radarr, "Syncs search feeds")
     Rel(sonarr, qbit, "Delegate download tasks")
@@ -26,6 +34,13 @@ Config for media server
     Rel(jellyseerr, sonarr, "Requests tv media download")
     Rel(jellyseerr, radarr, "Requests movies media download")
     UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
+```
+
+## Crontab example
+
+```sh
+@reboot /home/user/start.sh
+
 ```
 
 ## Sonarr, Radarr, Jellyfin, Prowlarr
