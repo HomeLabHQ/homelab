@@ -1,8 +1,8 @@
 services:
-  nginx:
-    image: nginx:latest
+  caddy:
+    image: caddy:latest
     restart: unless-stopped
-    container_name: nginx
+    container_name: caddy
     ports:
       - 80:80
     depends_on:
@@ -13,7 +13,8 @@ services:
       - jellyfin
       - qbittorrent
     volumes:
-      - ./conf/nginx:/etc/nginx/conf.d
+      - ./conf/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
   heimdall:
     image: lscr.io/linuxserver/heimdall:latest
     container_name: heimdall
@@ -24,16 +25,20 @@ services:
     volumes:
       - ./conf/heimdall:/config
     restart: unless-stopped
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
-    environment:
-      - LOG_LEVEL=debug
-      - TZ=Europe/Kiev
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    container_name: seerr
     ports:
       - 5055:5055
     volumes:
-      - ./conf/jellyseerr:/app/config
+      - ./conf/seer:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
     restart: unless-stopped
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -106,4 +111,5 @@ services:
       - 8920:8920 #optional
       - 7359:7359/udp #optional
       - 1900:1900/udp #optional
-version: "3.7"
+volumes:
+  caddy_data:

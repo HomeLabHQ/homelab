@@ -1,0 +1,30 @@
+:80 {
+	# Heimdall (root)
+	reverse_proxy / heimdall:80
+
+	# Prowlarr
+	reverse_proxy /prowlarr* prowlarr:9696
+
+	# Sonarr
+	reverse_proxy /sonarr* sonarr:8989
+
+	# Radarr
+	reverse_proxy /radarr* radarr:7878
+
+	# Jellyfin
+	reverse_proxy /jellyfin* jellyfin:8096 {
+		flush_interval -1
+	}
+
+	# qBittorrent — strip /qbt prefix, mask Referer/Origin
+	handle_path /qbt/* {
+		request_header Referer ""
+		request_header Origin ""
+		header X-Frame-Options "SAMEORIGIN"
+		reverse_proxy qbittorrent:8080
+	}
+
+	request_body {
+		max_size 16MB
+	}
+}
