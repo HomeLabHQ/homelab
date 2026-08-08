@@ -1,3 +1,5 @@
 .env
+.pi-subagents/
+/conf/homarr/
 netdata
 jellyseerr

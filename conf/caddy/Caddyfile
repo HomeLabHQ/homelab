@@ -1,27 +1,42 @@
 :80 {
-	# Heimdall (root)
-	reverse_proxy / heimdall:80
-
-	# Prowlarr
-	reverse_proxy /prowlarr* prowlarr:9696
-
-	# Sonarr
-	reverse_proxy /sonarr* sonarr:8989
-
-	# Radarr
-	reverse_proxy /radarr* radarr:7878
-
-	# Jellyfin
-	reverse_proxy /jellyfin* jellyfin:8096 {
-		flush_interval -1
+	# Service routes take precedence over the dashboard fallback.
+	@prowlarr path /prowlarr /prowlarr/*
+	handle @prowlarr {
+		reverse_proxy prowlarr:9696
 	}
 
-	# qBittorrent — strip /qbt prefix, mask Referer/Origin
+	@sonarr path /sonarr /sonarr/*
+	handle @sonarr {
+		reverse_proxy sonarr:8989
+	}
+
+	@radarr path /radarr /radarr/*
+	handle @radarr {
+		reverse_proxy radarr:7878
+	}
+
+	@jellyfin path /jellyfin /jellyfin/*
+	handle @jellyfin {
+		reverse_proxy jellyfin:8096 {
+			flush_interval -1
+		}
+	}
+
+	# Keep qBittorrent on a canonical trailing-slash URL before stripping /qbt.
+	handle /qbt {
+		redir * /qbt/ 308
+	}
+
 	handle_path /qbt/* {
 		request_header Referer ""
 		request_header Origin ""
 		header X-Frame-Options "SAMEORIGIN"
 		reverse_proxy qbittorrent:8080
+	}
+
+	# Homarr dashboard and all of its asset paths.
+	handle {
+		reverse_proxy homarr:7575
 	}
 
 	request_body {
