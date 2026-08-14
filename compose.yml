@@ -54,6 +54,15 @@ services:
       - 6881:6881
       - 6881:6881/udp
     restart: unless-stopped
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+      - TZ=Europe/Kiev
+    restart: unless-stopped
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -63,6 +72,8 @@ services:
       - TZ=Europe/Kiev
     volumes:
       - ./conf/prowlarr:/config
+    depends_on:
+      - flaresolverr
     restart: unless-stopped
     ports:
       - "9696:9696"

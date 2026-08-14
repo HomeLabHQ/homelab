@@ -13,12 +13,14 @@ Config for media server
         Container(sonarr, "Sonarr", "Series watcher")
         Container(radarr, "Radarr", "Movies watcher")
         Container(prowlarr, "Prowlarr", "Search indexer")
+        Container(flaresolverr, "FlareSolverr", "Cloudflare challenge proxy")
         Container(jellyfin, "Jellyfin", "Media server")
         Container(seerr, "Seerr", "Media discovery and request service")
     }
     Rel(user, homarr, "Uses dashboard to navigate")
     BiRel(prowlarr, sonarr, "Syncs search feeds")
     BiRel(prowlarr, radarr, "Syncs search feeds")
+    Rel(prowlarr, flaresolverr, "Delegates challenge-protected requests")
     Rel(sonarr, qbit, "Delegate download tasks")
     Rel(radarr, qbit, "Delegate download tasks")
     Rel(user, jellyfin, "Consumes media")
@@ -56,6 +58,24 @@ qBittorrent, and Seerr through Homarr's dashboard editor. Back up
 These services must keep their configured URL base paths for Caddy's path-based
 routes to work. After verifying the proxy routes, their direct host ports can be
 removed if they are not needed for administration.
+
+## FlareSolverr
+
+FlareSolverr is available only to other containers at
+`http://flaresolverr:8191`; it does not need a host port or a Caddy route.
+Configure it in Prowlarr:
+
+1. Start the services with `docker compose up -d flaresolverr prowlarr`.
+2. In **Prowlarr > Settings > Indexers > Indexer Proxies**, add a
+   **FlareSolverr** proxy whose host is `http://flaresolverr:8191`.
+3. Give the proxy a tag such as `flaresolverr`, then add the same tag only to
+   indexers that need Cloudflare challenge handling.
+4. Test and save both the proxy and each tagged indexer.
+
+Sonarr and Radarr need no FlareSolverr configuration: they receive Prowlarr's
+already-resolved indexer results. FlareSolverr cannot solve CAPTCHAs, and a
+Cloudflare update may temporarily break it; use only indexers you are authorized
+to access.
 
 ## Seerr
 
