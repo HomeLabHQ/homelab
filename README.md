@@ -61,9 +61,10 @@ removed if they are not needed for administration.
 
 ## FlareSolverr
 
-FlareSolverr is available only to other containers at
-`http://flaresolverr:8191`; it does not need a host port or a Caddy route.
-Configure it in Prowlarr:
+FlareSolverr is available to other containers at `http://flaresolverr:8191`
+and from the Docker host at `http://localhost:8191`. Port `8191` is published
+on all host interfaces, so restrict it with the host firewall and do not expose
+it to the internet. It does not need a Caddy route. Configure it in Prowlarr:
 
 1. Start the services with `docker compose up -d flaresolverr prowlarr`.
 2. In **Prowlarr > Settings > Indexers > Indexer Proxies**, add a

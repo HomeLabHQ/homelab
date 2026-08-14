@@ -62,6 +62,8 @@ services:
       - LOG_HTML=false
       - CAPTCHA_SOLVER=none
       - TZ=Europe/Kiev
+    ports:
+      - 8191:8191
     restart: unless-stopped
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
