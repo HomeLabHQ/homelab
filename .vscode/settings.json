@@ -1,10 +1,13 @@
 {
     "cSpell.words": [
         "Caddyfile",
+        "flaresolverr",
         "healthcheck",
         "HOMARR",
+        "Jackett",
         "jellyfin",
         "jellyseerr",
+        "lscr",
         "PGID",
         "prowlarr",
         "PUID",
@@ -12,7 +15,10 @@
         "qbittorrent",
         "radarr",
         "seerr",
+        "Solverr",
         "sonarr",
+        "Torznab",
+        "tvshows",
         "WEBUI"
     ]
 }
